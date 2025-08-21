@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useDownloadLinks } from '../hooks/useDownloadLinks';
-import { Download, Smartphone, AlertTriangle } from 'lucide-react';
+import { Download, Smartphone, AlertTriangle, ShieldCheck, Accessibility, ShieldOff } from 'lucide-react';
 import AnimatedElement from '../components/AnimatedElement';
 
 const DownloadCard: React.FC<{ href: string; label: string; version: string; disabled: boolean }> = ({ href, label, version, disabled }) => (
@@ -81,6 +81,50 @@ const DownloadPage: React.FC = () => {
                 </div>
             </div>
         </AnimatedElement>
+
+        <AnimatedElement className="mt-20 max-w-4xl mx-auto text-left">
+            <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-8">
+                Інструкція з налаштування
+            </h2>
+            <div className="space-y-6">
+                <div className="bg-brand-gray/50 border border-white/10 p-6 rounded-2xl flex items-start gap-4">
+                    <div className="bg-brand-accent/30 text-brand-accent-light p-3 rounded-full mt-1 flex-shrink-0">
+                        <ShieldCheck size={24} />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-lg text-white">Крок 1: Надайте всі дозволи</h3>
+                        <p className="text-gray-400 mt-1">
+                            Для повноцінної роботи та максимального захисту, Shado потребує доступу до контактів, мікрофону та файлів. Ми гарантуємо, що ці дані використовуються виключно для роботи месенджера та ніколи не передаються третім особам.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="bg-brand-gray/50 border border-white/10 p-6 rounded-2xl flex items-start gap-4">
+                    <div className="bg-brand-accent/30 text-brand-accent-light p-3 rounded-full mt-1 flex-shrink-0">
+                        <Accessibility size={24} />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-lg text-white">Крок 2: Увімкніть Спеціальні можливості</h3>
+                        <p className="text-gray-400 mt-1">
+                            Це необхідно для роботи функцій захисту від скріншотів та інших розширених можливостей безпеки. Перейдіть у <span className="font-semibold text-gray-200">Налаштування → Спеціальні можливості → Встановлені додатки</span>, знайдіть Shado та активуйте його.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="bg-brand-gray/50 border border-white/10 p-6 rounded-2xl flex items-start gap-4">
+                    <div className="bg-brand-accent/30 text-brand-accent-light p-3 rounded-full mt-1 flex-shrink-0">
+                        <ShieldOff size={24} />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-lg text-white">Крок 3: Вимкніть Play Захист (за потреби)</h3>
+                        <p className="text-gray-400 mt-1">
+                            Іноді Google Play Захист може помилково блокувати встановлення додатків не з Google Play. Якщо у вас виникла така проблема, відкрийте <span className="font-semibold text-gray-200">додаток Google Play → натисніть на іконку профілю → Play Захист → Налаштування (шестірня)</span> та тимчасово вимкніть опцію "Сканувати додатки за допомогою Play Захисту".
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </AnimatedElement>
+
       </div>
     </div>
   );

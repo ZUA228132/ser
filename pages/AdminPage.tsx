@@ -39,7 +39,7 @@ const AdminPage: React.FC = () => {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-brand-dark flex items-center justify-center p-4">
+      <div className="min-h-screen bg-brand-dark flex items-center justify-center p-4 relative z-10">
         <div className="w-full max-w-md bg-brand-gray p-8 rounded-2xl shadow-2xl shadow-brand-accent/20 border border-brand-light-gray/20">
           <div className="text-center mb-8">
             <ShieldCheck className="mx-auto w-16 h-16 text-brand-accent-light" />
@@ -73,7 +73,7 @@ const AdminPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-brand-dark flex items-center justify-center p-4">
+    <div className="min-h-screen bg-brand-dark flex items-center justify-center p-4 relative z-10">
       <div className="w-full max-w-2xl bg-brand-gray p-8 rounded-2xl shadow-2xl shadow-brand-accent/20 border border-brand-light-gray/20">
         <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-white">Керування посиланнями</h1>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shado Messenger - Приватність та Безпека</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-dark': '#0a0a0f',
+              'brand-gray': '#111118',
+              'brand-light-gray': '#2d2d3a',
+              'brand-accent': '#6a0dad',
+              'brand-accent-light': '#8a3ffc',
+              'brand-cyan': '#00ffff',
+            },
+            animation: {
+              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'fade-in': 'fadeIn 1s ease-in-out forwards',
+              'subtle-glow': 'subtleGlow 4s ease-in-out infinite alternate',
+              'text-reveal': 'textReveal 1s cubic-bezier(0.77, 0, 0.175, 1) forwards',
+              'message-appear': 'messageAppear 0.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards',
+              'typing-dots': 'typingDots 1.5s infinite ease-in-out',
+              'background-pan': 'backgroundPan 3s linear infinite',
+              'shine-effect': 'shineEffect 1s cubic-bezier(0.2, 0.7, 0.8, 0.3) 1',
+            },
+            keyframes: {
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              subtleGlow: {
+                '0%': { boxShadow: '0 0 10px -5px rgba(106, 13, 173, 0.4), 0 0 20px -10px rgba(0, 255, 255, 0.3)' },
+                '100%': { boxShadow: '0 0 20px 0px rgba(106, 13, 173, 0.7), 0 0 40px -5px rgba(0, 255, 255, 0.5)' },
+              },
+              textReveal: {
+                '0%': {
+                  transform: 'translate(0, 100%)',
+                },
+                '100%': {
+                  transform: 'translate(0, 0)',
+                },
+              },
+              messageAppear: {
+                '0%': { opacity: '0', transform: 'translateY(10px) scale(0.98)' },
+                '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+              },
+              typingDots: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-5px)' },
+              },
+              backgroundPan: {
+                '0%': { backgroundPosition: '0% center' },
+                '100%': { backgroundPosition: '-200% center' },
+              },
+              shineEffect: {
+                '0%': { transform: 'translateX(-100%) skewX(-20deg)' },
+                '100%': { transform: 'translateX(200%) skewX(-20deg)' },
+              },
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.1",
+    "react/": "https://esm.sh/react@^19.1.1/",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.8.1",
+    "lucide-react": "https://esm.sh/lucide-react@^0.540.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-brand-dark text-gray-200 font-sans antialiased">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

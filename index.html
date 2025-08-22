@@ -27,6 +27,9 @@
               'typing-dots': 'typingDots 1.5s infinite ease-in-out',
               'background-pan': 'backgroundPan 3s linear infinite',
               'shine-effect': 'shineEffect 1s cubic-bezier(0.2, 0.7, 0.8, 0.3) 1',
+              'aurora-glow': 'auroraGlow 8s ease-in-out infinite alternate',
+              'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+              'animated-text-gradient': 'animatedTextGradient 6s ease infinite',
             },
             keyframes: {
               fadeInUp: {
@@ -64,6 +67,20 @@
               shineEffect: {
                 '0%': { transform: 'translateX(-100%) skewX(-20deg)' },
                 '100%': { transform: 'translateX(200%) skewX(-20deg)' },
+              },
+              auroraGlow: {
+                '0%': { transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', opacity: '0.3' },
+                '50%': { transform: 'translate(-50%, -50%) scale(1.5) rotate(180deg)', opacity: '0.7' },
+                '100%': { transform: 'translate(-50%, -50%) scale(1) rotate(360deg)', opacity: '0.3' },
+              },
+              pulseGlow: {
+                '0%, 100%': { boxShadow: '0 0 20px rgba(138, 63, 252, 0.4)' },
+                '50%': { boxShadow: '0 0 35px rgba(138, 63, 252, 0.8)' },
+              },
+              animatedTextGradient: {
+                '0%': { backgroundPosition: '0% 50%' },
+                '50%': { backgroundPosition: '100% 50%' },
+                '100%': { backgroundPosition: '0% 50%' },
               },
             }
           }

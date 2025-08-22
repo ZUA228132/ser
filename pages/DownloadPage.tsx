@@ -31,7 +31,7 @@ const DownloadCard: React.FC<{ href: string; label: string; version: string; dis
 
 
 const DownloadPage: React.FC = () => {
-  const { links, isLoaded } = useDownloadLinks();
+  const { links, isLoaded, error } = useDownloadLinks();
 
   const isLegacyDisabled = !links.androidLegacy || links.androidLegacy === '#';
   const isModernDisabled = !links.androidModern || links.androidModern === '#';
@@ -54,6 +54,20 @@ const DownloadPage: React.FC = () => {
             Оберіть версію, що відповідає вашому пристрою Android. Завантаження почнеться автоматично.
           </p>
         </AnimatedElement>
+
+        {error && (
+            <AnimatedElement className="mb-12 max-w-3xl mx-auto">
+                <div className="bg-red-900/30 border border-red-500/50 text-red-200 px-4 py-3 rounded-lg flex items-start gap-3">
+                    <AlertTriangle size={24} className="mt-1 flex-shrink-0" />
+                    <div>
+                        <h3 className="font-bold">Помилка завантаження посилань</h3>
+                        <p className="text-sm">
+                            Не вдалося завантажити актуальні посилання на скачування. Спробуйте оновити сторінку пізніше. ({error})
+                        </p>
+                    </div>
+                </div>
+            </AnimatedElement>
+        )}
 
         <AnimatedElement className="flex flex-col md:flex-row justify-center items-center gap-8">
             <DownloadCard 

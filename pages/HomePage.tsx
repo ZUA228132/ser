@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Lock, Fingerprint, Zap, Download, Users, ShieldOff } from 'lucide-react';
 
@@ -7,40 +7,60 @@ import AnimatedElement from '../components/AnimatedElement';
 import FeatureCard from '../components/FeatureCard';
 import StatCounter from '../components/StatCounter';
 
-const AnimatedTitle: React.FC<{ text: string; coloredText: string }> = ({ text, coloredText }) => {
-  return (
-    <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4 tracking-tighter">
-      {text.split(' ').map((word, index) => (
-         <span key={index} className="inline-block overflow-hidden">
-            <span className="inline-block animate-text-reveal" style={{ animationDelay: `${index * 100}ms`}}>{word}&nbsp;</span>
-         </span>
-      ))}
-      <span className="inline-block overflow-hidden">
-        <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-brand-accent-light to-brand-cyan animate-text-reveal" style={{ animationDelay: `${text.split(' ').length * 100}ms`}}>
-            {coloredText}
-        </span>
-      </span>
-    </h1>
-  );
-};
-
-
 const HomePage: React.FC = () => {
+  const [spotlightStyle, setSpotlightStyle] = useState({});
+  const [parallaxOffset, setParallaxOffset] = useState(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const { clientX, clientY, currentTarget } = e;
+    const { top, left } = currentTarget.getBoundingClientRect();
+    const x = clientX - left;
+    const y = clientY - top;
+    setSpotlightStyle({
+      background: `radial-gradient(800px circle at ${x}px ${y}px, rgba(106, 13, 173, 0.15), transparent 80%)`
+    });
+  };
+  
+  useEffect(() => {
+    const handleScroll = () => {
+        const offset = window.pageYOffset;
+        // Only apply parallax on larger screens
+        if (window.innerWidth > 768) {
+            setParallaxOffset(offset * 0.3);
+        }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+
   return (
     <div className="overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-10 md:pt-32 md:pb-20 text-center">
-         <div className="absolute inset-0 bg-gradient-to-b from-brand-dark via-brand-dark/80 to-brand-dark z-0"></div>
-         <div className="absolute -top-1/4 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(106,13,173,0.3),_transparent_40%)] z-0 opacity-50"></div>
+      <section 
+        className="relative pt-20 pb-10 md:pt-32 md:pb-20 text-center overflow-hidden"
+        onMouseMove={handleMouseMove}
+      >
+        <div className="absolute inset-0 z-0 opacity-80" style={spotlightStyle}></div>
+        <div className="absolute inset-0 z-0 opacity-60 filter blur-3xl">
+          <div className="absolute top-1/2 left-1/2 w-[80vw] h-[80vw] max-w-4xl max-h-4xl rounded-full bg-gradient-to-tr from-brand-accent to-brand-cyan animate-aurora-glow" style={{ animationDelay: '0s' }}></div>
+          <div className="absolute top-1/2 left-1/2 w-[80vw] h-[80vw] max-w-4xl max-h-4xl rounded-full bg-gradient-to-tr from-brand-cyan to-brand-accent-light animate-aurora-glow" style={{ animationDelay: '4s' }}></div>
+        </div>
+         
         <div className="container mx-auto px-6 relative z-10">
           <AnimatedElement className="max-w-4xl mx-auto">
-            <AnimatedTitle text="Shado:" coloredText="Приватність, на яку ви заслуговуєте." />
+             <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4 tracking-tighter">
+                Shado:
+                <span className="ml-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-accent-light via-brand-cyan to-brand-accent-light bg-[length:200%_auto] animate-animated-text-gradient">
+                    Приватність, на яку ви заслуговуєте.
+                </span>
+            </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8">
               Надійний. Захищений. Анонімний. Спілкуйтеся без компромісів у світі, де ваша конфіденційність під загрозою.
             </p>
             <Link 
               to="/download" 
-              className="inline-block bg-[length:200%_auto] bg-gradient-to-r from-brand-accent via-brand-accent-light to-brand-accent text-white font-bold py-4 px-10 rounded-lg shadow-lg hover:shadow-brand-accent-light/50 transition-all duration-300 hover:animate-background-pan transform hover:scale-105 text-lg"
+              className="inline-block bg-[length:200%_auto] bg-gradient-to-r from-brand-accent via-brand-accent-light to-brand-accent text-white font-bold py-4 px-10 rounded-lg shadow-lg hover:shadow-brand-accent-light/50 transition-all duration-300 transform hover:scale-105 text-lg animate-pulse-glow"
             >
               <div className="flex items-center gap-2">
                 <Download size={22} />
@@ -48,9 +68,14 @@ const HomePage: React.FC = () => {
               </div>
             </Link>
           </AnimatedElement>
-          <AnimatedElement className="mt-16 md:mt-24">
-            <PhoneMockup />
-          </AnimatedElement>
+          <div 
+             className="mt-16 md:mt-24 transition-transform duration-300 ease-out"
+             style={{ transform: `translateY(${parallaxOffset}px)` }}
+          >
+            <AnimatedElement>
+                <PhoneMockup />
+            </AnimatedElement>
+          </div>
         </div>
       </section>
 
@@ -81,15 +106,15 @@ const HomePage: React.FC = () => {
        <section className="py-20">
         <div className="container mx-auto px-6">
             <AnimatedElement className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
-                <div className="bg-brand-gray/50 border border-white/10 p-8 rounded-2xl">
-                    <Users className="w-12 h-12 text-brand-accent-light mx-auto mb-4"/>
+                <div className="group bg-brand-gray/50 border border-white/10 p-8 rounded-2xl transition-all duration-300 hover:border-brand-accent-light hover:bg-brand-gray">
+                    <Users className="w-12 h-12 text-brand-accent-light mx-auto mb-4 transition-transform duration-300 group-hover:scale-110"/>
                     <h3 className="text-4xl md:text-5xl font-bold text-white">
                         <StatCounter end={500000} />+
                     </h3>
                     <p className="text-gray-400 mt-2">Анонімних акаунтів</p>
                 </div>
-                <div className="bg-brand-gray/50 border border-white/10 p-8 rounded-2xl">
-                    <ShieldOff className="w-12 h-12 text-brand-cyan mx-auto mb-4"/>
+                <div className="group bg-brand-gray/50 border border-white/10 p-8 rounded-2xl transition-all duration-300 hover:border-brand-cyan hover:bg-brand-gray">
+                    <ShieldOff className="w-12 h-12 text-brand-cyan mx-auto mb-4 transition-transform duration-300 group-hover:scale-110"/>
                     <h3 className="text-4xl md:text-5xl font-bold text-white">
                          <StatCounter end={0} duration={1} />
                     </h3>
@@ -123,7 +148,7 @@ const HomePage: React.FC = () => {
             </p>
             <Link 
               to="/download" 
-              className="inline-block bg-[length:200%_auto] bg-gradient-to-r from-brand-accent via-brand-accent-light to-brand-accent text-white font-bold py-4 px-10 rounded-lg shadow-lg hover:shadow-brand-accent-light/50 transition-all duration-300 hover:animate-background-pan transform hover:scale-105 text-lg"
+              className="inline-block bg-[length:200%_auto] bg-gradient-to-r from-brand-accent via-brand-accent-light to-brand-accent text-white font-bold py-4 px-10 rounded-lg shadow-lg hover:shadow-brand-accent-light/50 transition-all duration-300 transform hover:scale-105 text-lg animate-pulse-glow"
             >
                <div className="flex items-center gap-2">
                 <ShieldCheck size={22} />

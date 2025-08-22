@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDownloadLinks } from '../hooks/useDownloadLinks';
 import { ADMIN_PASSWORD } from '../constants';
-import { LogIn, Save, Link, Smartphone, AlertCircle, ShieldCheck } from 'lucide-react';
+import { LogIn, Save, Link, Smartphone, AlertCircle, ShieldCheck, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const AdminPage: React.FC = () => {
@@ -10,6 +10,7 @@ const AdminPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const { links, setLinks, isLoaded } = useDownloadLinks();
   const [localLinks, setLocalLinks] = useState(links);
@@ -31,10 +32,20 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  const handleSave = () => {
-    setLinks(localLinks);
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
+  const handleSave = async () => {
+    setIsSaving(true);
+    setShowSuccess(false);
+    setError('');
+    try {
+      await setLinks(localLinks);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Сталася невідома помилка.';
+      setError(`Помилка збереження: ${errorMessage}`);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   if (!isLoggedIn) {
@@ -119,15 +130,29 @@ const AdminPage: React.FC = () => {
         </div>
 
         <div className="mt-8 flex flex-col sm:flex-row gap-4">
-          <button onClick={handleSave} className="w-full bg-gradient-to-r from-brand-accent to-brand-accent-light text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-brand-accent-light/50 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
-            <Save size={20} />
-            <span>Зберегти зміни</span>
+          <button 
+            onClick={handleSave} 
+            disabled={isSaving}
+            className="w-full bg-gradient-to-r from-brand-accent to-brand-accent-light text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-brand-accent-light/50 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {isSaving ? (
+                <>
+                    <Loader2 size={20} className="animate-spin" />
+                    <span>Збереження...</span>
+                </>
+            ) : (
+                <>
+                    <Save size={20} />
+                    <span>Зберегти зміни</span>
+                </>
+            )}
           </button>
            <button onClick={() => navigate('/')} className="w-full bg-brand-light-gray text-gray-300 font-bold py-3 px-6 rounded-lg hover:bg-brand-light-gray/70 transition-colors">
                 Повернутися на сайт
            </button>
         </div>
         {showSuccess && <p className="text-green-400 mt-4 text-center">Посилання успішно оновлено!</p>}
+        {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
       </div>
     </div>
   );
